@@ -34,7 +34,7 @@ app.get('/:org/:repo/.travis.yml', function (req, res) {
     },
     shell: '/bin/bash'
   }
-  exec('bin/generate-travis-yml.sh', options)
+  exec(path.join(__dirname, '../', 'bin/generate-travis-yml.sh'), options)
     .then(() => {
       const options = {
         root: path.join(process.cwd(), `${timestamp}`),
