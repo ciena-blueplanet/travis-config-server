@@ -1,6 +1,6 @@
 {
   "name": "travis-config-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Server for easing creation of .travis.yml configs",
   "config": {
     "coverage_opts": "-x **/tests/** --report cobertura --report lcov --dir tests"
