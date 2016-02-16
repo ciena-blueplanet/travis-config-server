@@ -1,0 +1,52 @@
+{
+  "name": "travis-config-server",
+  "version": "0.0.1",
+  "description": "Server for easing creation of .travis.yml configs",
+  "config": {
+    "coverage_opts": "-x **/tests/** --report cobertura --report lcov --dir tests"
+  },
+  "scripts": {
+    "start": "./bin/www.js",
+    "lint": "eslint *.js bin src tests",
+    "jasmine": "JASMINE_CONFIG_PATH=tests/jasmine.json istanbul cover $npm_config_coverage_opts jasmine",
+    "test": "npm run lint && npm run jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ciena-blueplanet/travis-config-server.git"
+  },
+  "keywords": [
+    "travis",
+    "config"
+  ],
+  "author": "Adam Meadows (https://github.com/job13er)",
+  "engines": {
+    "node": ">=5.0.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ciena-blueplanet/travis-config-server/issues"
+  },
+  "homepage": "https://github.com/ciena-blueplanet/travis-config-server",
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-frost-standard": "^0.2.5",
+    "istanbul": "^0.4.2",
+    "jasmine": "^2.4.1"
+  },
+  "dependencies": {
+    "body-parser": "~1.12.0",
+    "cookie-parser": "~1.3.4",
+    "debug": "~2.1.1",
+    "express": "~4.12.2",
+    "jade": "~1.9.2",
+    "morgan": "~1.5.1",
+    "multer": "^0.1.8",
+    "promise": "^7.1.1",
+    "serve-favicon": "~2.2.0"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "travis-config-server": "./bin/www.js"
+  }
+}
