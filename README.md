@@ -86,7 +86,7 @@ the following command:
 
 
 ```bash
-curl -O https://my-domain.com:3333/bas-bob/foo-bar/.travis.yml
+curl -O https://my-domain.com:3333/baz-bob/foo-bar/.travis.yml
 ```
 
 You now have a `.travis.yml` file with all the encrypted goodies you need. Here's the current baseline it's using:
