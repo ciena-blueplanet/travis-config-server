@@ -61,10 +61,10 @@ notifications:
 EOT
 
 # login and encrypt all the things
-travis login --github-token $GITHUB_TOKEN 2>&1 | tee -a  out.log
-travis encrypt GITHUB_TOKEN=$GITHUB_TOKEN --add -r $SLUG 2>&1 | tee -a out.log
-travis encrypt $NPM_API_TOKEN --add deploy.api_key -r $SLUG 2>&1 | tee -a out.log
-travis encrypt "$SLACK_TOKEN" --add notifications.slack -r $SLUG 2>&1 | tee -a  out.log
+travis login --github-token $GITHUB_TOKEN
+travis encrypt GITHUB_TOKEN=$GITHUB_TOKEN --add -r $SLUG
+travis encrypt $NPM_API_TOKEN --add deploy.api_key -r $SLUG
+travis encrypt "$SLACK_TOKEN" --add notifications.slack -r $SLUG
 
 # rename the file b/c sendFile in express doesn't see to like dotfiles
 mv .travis.yml travis.yml
