@@ -19,25 +19,17 @@ cd $TIMESTAMP
 # TODO: make this configurable later
 cat <<EOT >> .travis.yml
 language: node_js
-sudo: false
 node_js:
-- '5.3'
+- '5.0'
+- 'stable'
+sudo: false
 branches:
   except:
-  - /^v[0-9\.]+/
-before_install:
-- npm install -g coveralls pr-bumper
-- pr-bumper check
-before_script:
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3 # give xvfb some time to start
-install:
-- npm install
-- bower install
-after_success:
-- sed -i -- 's/SF:${module}\/\(.*\)/SF:addon\/\1.js/' coverage/lcov.info && rm -f coverage/lcov.info--
-- cat coverage/lcov.info | coveralls
+  - "/^v[0-9\\.]+/"
+cache:
+  directories:
+  - bower_components
+  - node_modules
 addons:
   apt:
     sources:
@@ -46,8 +38,33 @@ addons:
     - g++-4.8
 env:
   matrix:
-  - CXX=g++-4.8
+  - EMBER_TRY_SCENARIO=default
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
   global:
+    - CXX=g++-4.8
+matrix:
+  fast_finish: true
+  allow_failures:
+  - env: EMBER_TRY_SCENARIO=ember-canary
+before_install:
+- npm config set spin false
+- npm install -g coveralls pr-bumper
+- pr-bumper check
+install:
+- npm install
+- bower install
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3 # give xvfb some time to start
+script:
+- npm run lint
+- ember try:one $EMBER_TRY_SCENARIO --- ember test
+after_success:
+- sed -i -- 's/SF:${module}\/\(.*\)/SF:addon\/\1.js/' coverage/lcov.info && rm -f coverage/lcov.info--
+- cat coverage/lcov.info | coveralls
 before_deploy:
 - pr-bumper bump
 deploy:
@@ -57,6 +74,8 @@ deploy:
   api_key:
   on:
     branch: master
+    condition: "$EMBER_TRY_SCENARIO = 'default'"
+    node: 'stable'
     tags: false
 after_deploy:
 - .travis/publish-gh-pages.sh
