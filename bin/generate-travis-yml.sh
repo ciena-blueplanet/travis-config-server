@@ -63,7 +63,7 @@ script:
 - npm run lint
 - ember try:one $EMBER_TRY_SCENARIO --- ember test
 after_success:
-- if [[ "$EMBER_TRY_SCENARIO" = 'default' ]]; then cat coverage/lcov.info | coveralls; fi
+- .travis/publish-coverage.sh
 before_deploy:
 - pr-bumper bump
 deploy:
