@@ -63,9 +63,7 @@ script:
 - npm run lint
 - ember try:one $EMBER_TRY_SCENARIO --- ember test
 after_success:
-- sed -i -- 's/SF:${module}\/\(.*\)/SF:addon\/\1.js/' coverage/lcov.info
-- cat coverage/lcov.info | coveralls
-- rm -f coverage/lcov.info
+- if [[ "$EMBER_TRY_SCENARIO" = 'default' ]]; then cat coverage/lcov.info | coveralls; fi
 before_deploy:
 - pr-bumper bump
 deploy:
